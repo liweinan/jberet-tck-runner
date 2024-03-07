@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -x
 
 wget https://download.eclipse.org/jakartaee/batch/2.1/jakarta.batch.official.tck-2.1.1.zip
