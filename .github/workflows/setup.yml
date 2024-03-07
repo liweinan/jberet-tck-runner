@@ -31,4 +31,6 @@ jobs:
           java-version: ${{ matrix.jdk-version }}
           cache: 'maven'
       - name: run setup script
-        run: setup.sh
+        run: |
+          ls
+          ./setup.sh
