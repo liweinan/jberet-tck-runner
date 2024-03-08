@@ -74,5 +74,9 @@ fi
 done
 popd
 
+pushd $BATCH_TCK_DIR/runners/platform-arquillian
+mvn install
+popd
+
 # stop WildFly server
 $JBOSS_HOME/bin/jboss-cli.sh --connect --commands="undeploy jberet-tck-porting.jar, shutdown"
