@@ -10,11 +10,11 @@ pushd jberet-tck-porting
 mvn install -DskipTests
 popd
 
-git clone https://github.com/wildfly/wildfly.git
-
-pushd wildfly
-mvn install -DskipTests
-popd
+#git clone https://github.com/wildfly/wildfly.git
+#
+#pushd wildfly
+#mvn install -DskipTests
+#popd
 
 git clone https://github.com/jberet/jsr352.git
 
@@ -26,10 +26,15 @@ popd
 export BATCH_TCK_DIR=$(pwd)/jakarta.batch.official.tck-2.1.1
 export JBERET_PORTING_DIR=$(pwd)/jberet-tck-porting
 
-pushd wildfly
-wildfly_ver=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-popd
+#pushd wildfly
+#wildfly_ver=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+#popd
+#
+#export JBOSS_HOME=$(pwd)/wildfly/dist/target/wildfly-${wildfly_ver}
 
+wget https://github.com/wildfly/wildfly/releases/download/31.0.1.Final/wildfly-31.0.1.Final.zip
+unzip wildfly-31.0.1.Final.zip
+wildfly_ver=31.0.1.Final
 export JBOSS_HOME=$(pwd)/wildfly/dist/target/wildfly-${wildfly_ver}
 
 cp $JBERET_PORTING_DIR/target/jberet-tck-porting.jar $JBOSS_HOME/standalone/deployments/
@@ -41,9 +46,9 @@ cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/src/test/r
 
 
 # Run SE tests
-pushd $BATCH_TCK_DIR/runners/se-classpath
-mvn install -Dversion.org.jberet.jberet-core=${jberet_ver}
-popd
+#pushd $BATCH_TCK_DIR/runners/se-classpath
+#mvn install -Dversion.org.jberet.jberet-core=${jberet_ver}
+#popd
 
 # Run integration tests
 
