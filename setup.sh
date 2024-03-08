@@ -35,7 +35,7 @@ export JBERET_PORTING_DIR=$(pwd)/jberet-tck-porting
 wget https://github.com/wildfly/wildfly/releases/download/31.0.1.Final/wildfly-31.0.1.Final.zip
 unzip wildfly-31.0.1.Final.zip
 wildfly_ver=31.0.1.Final
-export JBOSS_HOME=$(pwd)/wildfly/dist/target/wildfly-${wildfly_ver}
+export JBOSS_HOME=$(pwd)/wildfly-${wildfly_ver}
 
 cp $JBERET_PORTING_DIR/target/jberet-tck-porting.jar $JBOSS_HOME/standalone/deployments/
 
