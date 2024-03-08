@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
+        os: [ ubuntu-latest ] # bash script only runs on ubuntu
         jdk-distribution: [ temurin ]
         jdk-version: [ '11', '17' ]
     steps:

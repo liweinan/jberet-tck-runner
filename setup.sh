@@ -4,19 +4,19 @@ set -x
 wget https://download.eclipse.org/jakartaee/batch/2.1/jakarta.batch.official.tck-2.1.1.zip
 unzip jakarta.batch.official.tck-2.1.1.zip
 
-git clone git@github.com:jberet/jberet-tck-porting.git
+git clone https://github.com/jberet/jberet-tck-porting.git
 
 pushd jberet-tck-porting
 mvn install -DskipTests
 popd
 
-git clone git@github.com:wildfly/wildfly.git
+git clone https://github.com/wildfly/wildfly.git
 
 pushd wildfly
 mvn install -DskipTests
 popd
 
-git clone git@github.com:jberet/jsr352.git
+git clone https://github.com/jberet/jsr352.git
 
 pushd jsr352
 mvn install -DskipTests
