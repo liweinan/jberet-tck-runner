@@ -32,7 +32,7 @@ export JBERET_PORTING_DIR=$(pwd)/jberet-tck-porting
 #
 #export JBOSS_HOME=$(pwd)/wildfly/dist/target/wildfly-${wildfly_ver}
 
-WFLY_VER=$(curl --silent -qI https://github.com/wildfly/wildfly/releases/latest | grep '^location.*')
+WFLY_VER=$(curl --silent -qI https://github.com/wildfly/wildfly/releases/latest | grep '^location.*' | tr -d '\r')
 WFLY_VER=${WFLY_VER##*/}
 
 wget https://github.com/wildfly/wildfly/releases/download/${WFLY_VER}/wildfly-${WFLY_VER}.zip
