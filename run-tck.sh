@@ -1,8 +1,10 @@
 #!/bin/bash
 set -x
 
-wget https://download.eclipse.org/jakartaee/batch/2.1/jakarta.batch.official.tck-2.1.1.zip
-unzip jakarta.batch.official.tck-2.1.1.zip
+BATCH_TCK_VER='2.1.1'
+
+wget https://download.eclipse.org/jakartaee/batch/2.1/jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
+unzip jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
 
 git clone https://github.com/jberet/jberet-tck-porting.git
 
@@ -23,7 +25,7 @@ mvn install -DskipTests
 jberet_ver=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 popd
 
-export BATCH_TCK_DIR=$(pwd)/jakarta.batch.official.tck-2.1.1
+export BATCH_TCK_DIR=$(pwd)/jakarta.batch.official.tck-${BATCH_TCK_VER}
 export JBERET_PORTING_DIR=$(pwd)/jberet-tck-porting
 
 #pushd wildfly
