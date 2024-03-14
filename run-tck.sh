@@ -1,7 +1,13 @@
 #!/bin/bash
 set -x
 
-BATCH_TCK_VER="${SET_BATCH_TCK_VER:-'2.1.1'}"
+err_report() {
+  echo "Error on line $1"
+}
+
+trap 'err_report $LINENO' ERR
+
+BATCH_TCK_VER=${SET_BATCH_TCK_VER:-2.1.1}
 
 wget https://download.eclipse.org/jakartaee/batch/2.1/jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
 unzip jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
@@ -36,6 +42,11 @@ cp $JBERET_PORTING_DIR/src/main/resources/runners/sigtest/pom.xml $BATCH_TCK_DIR
 cp $JBERET_PORTING_DIR/src/main/resources/runners/se-classpath/pom.xml $BATCH_TCK_DIR/runners/se-classpath/pom.xml
 cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/pom.xml $BATCH_TCK_DIR/runners/platform-arquillian/pom.xml
 cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/src/test/resources/arquillian.xml $BATCH_TCK_DIR/runners/platform-arquillian/src/test/resources/arquillian.xml
+
+# Run sigtest
+pushd $BATCH_TCK_DIR/runners/sigtest
+mvn install -Dversion.org.jberet.jberet-core=${jberet_ver}
+popd
 
 # Run SE tests
 pushd $BATCH_TCK_DIR/runners/se-classpath
