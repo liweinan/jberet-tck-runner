@@ -10,7 +10,8 @@ on:
     types: [ opened, synchronize, reopened, ready_for_review ]
   push:
     branches: [ main ]
-
+  schedule:
+    - cron: '0 0 * * *' # Every day at 00:00 UTC
 jobs:
   build-test-matrix:
     name: ${{ matrix.jdk-distribution }}-${{ matrix.jdk-version }}-${{ matrix.os }}
@@ -19,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
+        os: [ ubuntu-latest ] # bash script only runs on ubuntu
         jdk-distribution: [ temurin ]
         jdk-version: [ '11', '17' ]
     steps:
@@ -31,6 +32,4 @@ jobs:
           java-version: ${{ matrix.jdk-version }}
           cache: 'maven'
       - name: run setup script
-        run: |
-          ls
-          ./setup.sh
+        run: ./run-tck.sh
