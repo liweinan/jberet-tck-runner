@@ -37,6 +37,11 @@ cp $JBERET_PORTING_DIR/src/main/resources/runners/se-classpath/pom.xml $BATCH_TC
 cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/pom.xml $BATCH_TCK_DIR/runners/platform-arquillian/pom.xml
 cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/src/test/resources/arquillian.xml $BATCH_TCK_DIR/runners/platform-arquillian/src/test/resources/arquillian.xml
 
+# Run sigtest
+pushd $BATCH_TCK_DIR/runners/sigtest
+mvn install -Dversion.org.jberet.jberet-core=${jberet_ver}
+popd
+
 # Run SE tests
 pushd $BATCH_TCK_DIR/runners/se-classpath
 mvn install -Dversion.org.jberet.jberet-core=${jberet_ver}
