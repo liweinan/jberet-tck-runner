@@ -1,7 +1,13 @@
 #!/bin/bash
 set -x
 
-BATCH_TCK_VER="${SET_BATCH_TCK_VER:-'2.1.1'}"
+err_report() {
+  echo "Error on line $1"
+}
+
+trap 'err_report $LINENO' ERR
+
+BATCH_TCK_VER=${SET_BATCH_TCK_VER:-2.1.1}
 
 wget https://download.eclipse.org/jakartaee/batch/2.1/jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
 unzip jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
