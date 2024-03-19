@@ -11,10 +11,20 @@ BATCH_TCK_VER=${SET_BATCH_TCK_VER:-2.1.1}
 
 wget https://download.eclipse.org/jakartaee/batch/2.1/jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
 unzip jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
+export BATCH_TCK_DIR=$(pwd)/jakarta.batch.official.tck-${BATCH_TCK_VER}
 
-git clone https://github.com/jberet/jberet-tck-porting.git
+# We need to build a customized `batch-tck` branch that disables the Java versions enforcer rule and disable the `sigtest` module build.
+git clone https://github.com/liweinan/batch-tck.git
+pushd batch-tck
+git checkout disable_jdk_checking_and_sigtest_build
+mvn install -DskipTests
+popd
+
+# Use the customized branch to override the `batch-tck` version.
+git clone https://github.com/liweinan/jberet-tck-porting.git
 
 pushd jberet-tck-porting
+git checkout override_batch_tck_parent_version
 mvn install -DskipTests
 popd
 
@@ -25,7 +35,6 @@ mvn install -DskipTests
 jberet_ver=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 popd
 
-export BATCH_TCK_DIR=$(pwd)/jakarta.batch.official.tck-${BATCH_TCK_VER}
 export JBERET_PORTING_DIR=$(pwd)/jberet-tck-porting
 
 WFLY_VER=$(curl --silent -qI https://github.com/wildfly/wildfly/releases/latest | grep '^location.*' | tr -d '\r')
@@ -38,7 +47,7 @@ export JBOSS_HOME=$(pwd)/wildfly-${WFLY_VER}
 
 cp $JBERET_PORTING_DIR/target/jberet-tck-porting.jar $JBOSS_HOME/standalone/deployments/
 
-cp $JBERET_PORTING_DIR/src/main/resources/runners/sigtest/pom.xml $BATCH_TCK_DIR/runners/sigtest/pom.xml
+#cp $JBERET_PORTING_DIR/src/main/resources/runners/sigtest/pom.xml $BATCH_TCK_DIR/runners/sigtest/pom.xml
 cp $JBERET_PORTING_DIR/src/main/resources/runners/se-classpath/pom.xml $BATCH_TCK_DIR/runners/se-classpath/pom.xml
 cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/pom.xml $BATCH_TCK_DIR/runners/platform-arquillian/pom.xml
 cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/src/test/resources/arquillian.xml $BATCH_TCK_DIR/runners/platform-arquillian/src/test/resources/arquillian.xml
