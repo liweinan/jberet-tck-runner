@@ -19,20 +19,24 @@ git clone https://github.com/liweinan/batch-tck.git
 pushd batch-tck
 git checkout disable_jdk_checking_and_sigtest_build
 mvn install -DskipTests
+echo "build batch-tck result: $?"
 popd
 
 # Use the customized branch to override the `batch-tck` version.
 git clone https://github.com/liweinan/jberet-tck-porting.git
 
+# build for jdk 21 testings
 pushd jberet-tck-porting
 git checkout override_batch_tck_parent_version
 mvn install -DskipTests
+echo "build jberet-tck-porting result: $?"
 popd
 
 git clone https://github.com/jberet/jsr352.git
 
 pushd jsr352
 mvn install -DskipTests
+echo "build jsr352 result: $?"
 jberet_ver=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 popd
 
@@ -53,15 +57,17 @@ cp $JBERET_PORTING_DIR/src/main/resources/runners/se-classpath/pom.xml $BATCH_TC
 cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/pom.xml $BATCH_TCK_DIR/runners/platform-arquillian/pom.xml
 cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/src/test/resources/arquillian.xml $BATCH_TCK_DIR/runners/platform-arquillian/src/test/resources/arquillian.xml
 
-# disable the `sigtest`
-## Run sigtest
-#pushd $BATCH_TCK_DIR/runners/sigtest
-#mvn install -Dversion.org.jberet.jberet-core=${jberet_ver}
-#popd
+
+# Run sigtest
+pushd $BATCH_TCK_DIR/runners/sigtest
+mvn install -Dversion.org.jberet.jberet-core=${jberet_ver}
+echo "run sigtest result: $?"
+popd
 
 # Run SE tests
 pushd $BATCH_TCK_DIR/runners/se-classpath
 mvn install -Dversion.org.jberet.jberet-core=${jberet_ver}
+echo "se-classpath running result: $?"
 popd
 
 # Run integration tests
@@ -91,6 +97,7 @@ popd
 
 pushd $BATCH_TCK_DIR/runners/platform-arquillian
 mvn install
+echo "platform-arquillian running result: $?"
 popd
 
 # stop WildFly server
