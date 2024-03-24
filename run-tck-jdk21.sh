@@ -27,7 +27,7 @@ git clone https://github.com/liweinan/jberet-tck-porting.git
 
 # build for jdk 21 testings
 pushd jberet-tck-porting
-git checkout override_batch_tck_parent_version
+git checkout switch_sigtest_maven_plugin
 mvn install -DskipTests
 echo "build jberet-tck-porting result: $?"
 popd
