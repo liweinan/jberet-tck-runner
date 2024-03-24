@@ -32,6 +32,8 @@ mvn install -DskipTests
 echo "build jberet-tck-porting result: $?"
 popd
 
+export JBERET_PORTING_DIR=$(pwd)/jberet-tck-porting
+
 git clone https://github.com/jberet/jsr352.git
 
 pushd jsr352
@@ -40,23 +42,10 @@ echo "build jsr352 result: $?"
 jberet_ver=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 popd
 
-export JBERET_PORTING_DIR=$(pwd)/jberet-tck-porting
-
-WFLY_VER=$(curl --silent -qI https://github.com/wildfly/wildfly/releases/latest | grep '^location.*' | tr -d '\r')
-WFLY_VER=${WFLY_VER##*/}
-
-wget https://github.com/wildfly/wildfly/releases/download/${WFLY_VER}/wildfly-${WFLY_VER}.zip
-unzip wildfly-${WFLY_VER}.zip
-
-export JBOSS_HOME=$(pwd)/wildfly-${WFLY_VER}
-
-cp $JBERET_PORTING_DIR/target/jberet-tck-porting.jar $JBOSS_HOME/standalone/deployments/
-
-#cp $JBERET_PORTING_DIR/src/main/resources/runners/sigtest/pom.xml $BATCH_TCK_DIR/runners/sigtest/pom.xml
+cp $JBERET_PORTING_DIR/src/main/resources/runners/sigtest/pom.xml $BATCH_TCK_DIR/runners/sigtest/pom.xml
 cp $JBERET_PORTING_DIR/src/main/resources/runners/se-classpath/pom.xml $BATCH_TCK_DIR/runners/se-classpath/pom.xml
 cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/pom.xml $BATCH_TCK_DIR/runners/platform-arquillian/pom.xml
 cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/src/test/resources/arquillian.xml $BATCH_TCK_DIR/runners/platform-arquillian/src/test/resources/arquillian.xml
-
 
 # Run sigtest
 pushd $BATCH_TCK_DIR/runners/sigtest
@@ -69,6 +58,17 @@ pushd $BATCH_TCK_DIR/runners/se-classpath
 mvn install -Dversion.org.jberet.jberet-core=${jberet_ver}
 echo "se-classpath running result: $?"
 popd
+
+
+WFLY_VER=$(curl --silent -qI https://github.com/wildfly/wildfly/releases/latest | grep '^location.*' | tr -d '\r')
+WFLY_VER=${WFLY_VER##*/}
+
+wget https://github.com/wildfly/wildfly/releases/download/${WFLY_VER}/wildfly-${WFLY_VER}.zip
+unzip wildfly-${WFLY_VER}.zip
+
+export JBOSS_HOME=$(pwd)/wildfly-${WFLY_VER}
+
+cp $JBERET_PORTING_DIR/target/jberet-tck-porting.jar $JBOSS_HOME/standalone/deployments/
 
 # Run integration tests
 
