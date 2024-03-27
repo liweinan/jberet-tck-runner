@@ -15,12 +15,19 @@ unzip jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
 export BATCH_TCK_DIR=$(pwd)/jakarta.batch.official.tck-${BATCH_TCK_VER}
 
 # We need to build a customized `batch-tck` branch that disables the Java versions enforcer rule and disable the `sigtest` module build.
-git clone https://github.com/liweinan/batch-tck.git
+#git clone https://github.com/liweinan/batch-tck.git
+#pushd batch-tck
+#git checkout disable_jdk_checking_and_sigtest_build
+#mvn install -DskipTests
+#echo "build batch-tck result: $?"
+#popd
+
+git clone https://github.com/scottkurz/batch-tck.git
 pushd batch-tck
-git checkout disable_jdk_checking_and_sigtest_build
+git checkout use-jakarta-tck-sigtest
 mvn install -DskipTests
-echo "build batch-tck result: $?"
 popd
+
 
 # Use the customized branch to override the `batch-tck` version.
 git clone https://github.com/liweinan/jberet-tck-porting.git
