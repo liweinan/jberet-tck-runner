@@ -10,9 +10,9 @@ trap 'err_report $LINENO' ERR
 
 BATCH_TCK_VER=${SET_BATCH_TCK_VER:-2.1.1}
 
-wget https://download.eclipse.org/jakartaee/batch/2.1/jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
-unzip jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
-export BATCH_TCK_DIR=$(pwd)/jakarta.batch.official.tck-${BATCH_TCK_VER}
+#wget https://download.eclipse.org/jakartaee/batch/2.1/jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
+#unzip jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
+#export BATCH_TCK_DIR=$(pwd)/jakarta.batch.official.tck-${BATCH_TCK_VER}
 
 # We need to build a customized `batch-tck` branch that disables the Java versions enforcer rule and disable the `sigtest` module build.
 #git clone https://github.com/liweinan/batch-tck.git
@@ -22,21 +22,25 @@ export BATCH_TCK_DIR=$(pwd)/jakarta.batch.official.tck-${BATCH_TCK_VER}
 #echo "build batch-tck result: $?"
 #popd
 
-git clone https://github.com/scottkurz/batch-tck.git
+#git clone https://github.com/scottkurz/batch-tck.git
+git clone https://github.com/jakartaee/batch-tck.git
 pushd batch-tck
-git checkout use-jakarta-tck-sigtest
+#git checkout use-jakarta-tck-sigtest
+git checkout master
 mvn install -DskipTests
 popd
 
+export BATCH_TCK_DIR=$(pwd)/batch-tck/com.ibm.jbatch.tck.sigtest.exec
 
 # Use the customized branch to override the `batch-tck` version.
 #git clone https://github.com/liweinan/jberet-tck-porting.git
-git clone https://github.com/jamezp/jberet-tck-porting.git
+#git clone https://github.com/jamezp/jberet-tck-porting.git
+git clone https://github.com/jberet/jberet-tck-porting.git
 
 # build for jdk 21 testings
 pushd jberet-tck-porting
 #git checkout switch_sigtest_maven_plugin
-git checkout sigtest-fix
+git checkout main
 mvn install -DskipTests
 echo "build jberet-tck-porting result: $?"
 popd
