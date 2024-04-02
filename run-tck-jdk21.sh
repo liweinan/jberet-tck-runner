@@ -30,11 +30,13 @@ popd
 
 
 # Use the customized branch to override the `batch-tck` version.
-git clone https://github.com/liweinan/jberet-tck-porting.git
+#git clone https://github.com/liweinan/jberet-tck-porting.git
+git clone https://github.com/jamezp/jberet-tck-porting.git
 
 # build for jdk 21 testings
 pushd jberet-tck-porting
-git checkout switch_sigtest_maven_plugin
+#git checkout switch_sigtest_maven_plugin
+git checkout sigtest-fix
 mvn install -DskipTests
 echo "build jberet-tck-porting result: $?"
 popd
