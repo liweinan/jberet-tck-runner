@@ -56,11 +56,6 @@ echo "build jsr352 result: $?"
 jberet_ver=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 popd
 
-#cp $JBERET_PORTING_DIR/src/main/resources/runners/sigtest/pom.xml $BATCH_TCK_DIR/runners/sigtest/pom.xml
-#cp $JBERET_PORTING_DIR/src/main/resources/runners/se-classpath/pom.xml $BATCH_TCK_DIR/runners/se-classpath/pom.xml
-#cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/pom.xml $BATCH_TCK_DIR/runners/platform-arquillian/pom.xml
-#cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/src/test/resources/arquillian.xml $BATCH_TCK_DIR/runners/platform-arquillian/src/test/resources/arquillian.xml
-
 cp $JBERET_PORTING_DIR/src/main/resources/runners/sigtest/pom.xml $BATCH_TCK_DIR/com.ibm.jbatch.tck.sigtest.exec/pom.xml
 cp $JBERET_PORTING_DIR/src/main/resources/runners/se-classpath/pom.xml $BATCH_TCK_DIR/com.ibm.jbatch.tck.exec/pom.xml
 cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/pom.xml $BATCH_TCK_DIR/jakarta.batch.arquillian.exec/pom.xml
@@ -73,7 +68,7 @@ echo "run sigtest result: $?"
 popd
 
 # Run SE tests
-pushd $BATCH_TCK_DIR/runners/com.ibm.jbatch.tck.exec
+pushd $BATCH_TCK_DIR/com.ibm.jbatch.tck.exec
 mvn install -Dversion.org.jberet.jberet-core=${jberet_ver}
 echo "se-classpath running result: $?"
 popd
@@ -114,7 +109,7 @@ fi
 done
 popd
 
-pushd $BATCH_TCK_DIR/runners/jakarta.batch.arquillian.exec
+pushd $BATCH_TCK_DIR/jakarta.batch.arquillian.exec
 mvn install
 echo "platform-arquillian running result: $?"
 popd
