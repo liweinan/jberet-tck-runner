@@ -6,13 +6,12 @@ name: JBeret TCK Testings
 on:
   pull_request:
     branches:
-#      - main
-      - nil
-#    types: [ opened, synchronize, reopened, ready_for_review ]
-#  push:
-#    branches: [ main ]
-#  schedule:
-#    - cron: '0 0 * * *' # Every day at 00:00 UTC
+      - main
+    types: [ opened, synchronize, reopened, ready_for_review ]
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * *' # Every day at 00:00 UTC
 jobs:
   build-test-matrix:
     name: ${{ matrix.jdk-distribution }}-${{ matrix.jdk-version }}-${{ matrix.os }}
