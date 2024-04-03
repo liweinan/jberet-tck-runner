@@ -8,39 +8,22 @@ err_report() {
 
 trap 'err_report $LINENO' ERR
 
-BATCH_TCK_VER=${SET_BATCH_TCK_VER:-2.1.1}
-
-#wget https://download.eclipse.org/jakartaee/batch/2.1/jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
-#unzip jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
-#export BATCH_TCK_DIR=$(pwd)/jakarta.batch.official.tck-${BATCH_TCK_VER}
-
-# We need to build a customized `batch-tck` branch that disables the Java versions enforcer rule and disable the `sigtest` module build.
-#git clone https://github.com/liweinan/batch-tck.git
-#pushd batch-tck
-#git checkout disable_jdk_checking_and_sigtest_build
-#mvn install -DskipTests
-#echo "build batch-tck result: $?"
-#popd
-
-#git clone https://github.com/scottkurz/batch-tck.git
+# clone the upstream `batch-tck` and build it.
 git clone https://github.com/jakartaee/batch-tck.git
 pushd batch-tck
-#git checkout use-jakarta-tck-sigtest
 git checkout master
-#mvn install -DskipTests
+# https://github.com/jakartaee/batch-tck/issues/77
 mvn clean install -DskipTests -Dxml.skip -Decho.skip
+tck_ver=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 popd
 
 export BATCH_TCK_DIR=$(pwd)/batch-tck
 
 # Use the customized branch to override the `batch-tck` version.
-#git clone https://github.com/liweinan/jberet-tck-porting.git
-#git clone https://github.com/jamezp/jberet-tck-porting.git
 git clone https://github.com/jberet/jberet-tck-porting.git
 
 # build for jdk 21 testings
 pushd jberet-tck-porting
-#git checkout switch_sigtest_maven_plugin
 git checkout main
 mvn install -DskipTests
 echo "build jberet-tck-porting result: $?"
@@ -56,9 +39,9 @@ echo "build jsr352 result: $?"
 jberet_ver=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 popd
 
-cp $JBERET_PORTING_DIR/src/main/resources/runners/sigtest/pom.xml $BATCH_TCK_DIR/com.ibm.jbatch.tck.sigtest.exec/pom.xml
-cp $JBERET_PORTING_DIR/src/main/resources/runners/se-classpath/pom.xml $BATCH_TCK_DIR/com.ibm.jbatch.tck.exec/pom.xml
-cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/pom.xml $BATCH_TCK_DIR/jakarta.batch.arquillian.exec/pom.xml
+cp $JBERET_PORTING_DIR/src/main/resources/runners/sigtest/pom-rawhide.xml $BATCH_TCK_DIR/com.ibm.jbatch.tck.sigtest.exec/pom.xml
+cp $JBERET_PORTING_DIR/src/main/resources/runners/se-classpath/pom-rawhide.xml $BATCH_TCK_DIR/com.ibm.jbatch.tck.exec/pom.xml
+cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/pom-rawhide.xml $BATCH_TCK_DIR/jakarta.batch.arquillian.exec/pom.xml
 cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/src/test/resources/arquillian.xml $BATCH_TCK_DIR/jakarta.batch.arquillian.exec/src/test/resources/arquillian.xml
 
 # Run sigtest
