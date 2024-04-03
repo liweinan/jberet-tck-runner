@@ -27,7 +27,8 @@ git clone https://github.com/jakartaee/batch-tck.git
 pushd batch-tck
 #git checkout use-jakarta-tck-sigtest
 git checkout master
-mvn install -DskipTests
+#mvn install -DskipTests
+mvn clean install -DskipTests -Dxml.skip -Decho.skip
 popd
 
 export BATCH_TCK_DIR=$(pwd)/batch-tck/com.ibm.jbatch.tck.sigtest.exec
