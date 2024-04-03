@@ -31,7 +31,7 @@ git checkout master
 mvn clean install -DskipTests -Dxml.skip -Decho.skip
 popd
 
-export BATCH_TCK_DIR=$(pwd)/batch-tck/com.ibm.jbatch.tck.sigtest.exec
+export BATCH_TCK_DIR=$(pwd)/batch-tck
 
 # Use the customized branch to override the `batch-tck` version.
 #git clone https://github.com/liweinan/jberet-tck-porting.git
@@ -56,19 +56,24 @@ echo "build jsr352 result: $?"
 jberet_ver=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 popd
 
-cp $JBERET_PORTING_DIR/src/main/resources/runners/sigtest/pom.xml $BATCH_TCK_DIR/runners/sigtest/pom.xml
-cp $JBERET_PORTING_DIR/src/main/resources/runners/se-classpath/pom.xml $BATCH_TCK_DIR/runners/se-classpath/pom.xml
-cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/pom.xml $BATCH_TCK_DIR/runners/platform-arquillian/pom.xml
-cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/src/test/resources/arquillian.xml $BATCH_TCK_DIR/runners/platform-arquillian/src/test/resources/arquillian.xml
+#cp $JBERET_PORTING_DIR/src/main/resources/runners/sigtest/pom.xml $BATCH_TCK_DIR/runners/sigtest/pom.xml
+#cp $JBERET_PORTING_DIR/src/main/resources/runners/se-classpath/pom.xml $BATCH_TCK_DIR/runners/se-classpath/pom.xml
+#cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/pom.xml $BATCH_TCK_DIR/runners/platform-arquillian/pom.xml
+#cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/src/test/resources/arquillian.xml $BATCH_TCK_DIR/runners/platform-arquillian/src/test/resources/arquillian.xml
+
+cp $JBERET_PORTING_DIR/src/main/resources/runners/sigtest/pom.xml $BATCH_TCK_DIR/com.ibm.jbatch.tck.sigtest.exec/pom.xml
+cp $JBERET_PORTING_DIR/src/main/resources/runners/se-classpath/pom.xml $BATCH_TCK_DIR/com.ibm.jbatch.tck.exec/pom.xml
+cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/pom.xml $BATCH_TCK_DIR/jakarta.batch.arquillian.exec/pom.xml
+cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/src/test/resources/arquillian.xml $BATCH_TCK_DIR/jakarta.batch.arquillian.exec/src/test/resources/arquillian.xml
 
 # Run sigtest
-pushd $BATCH_TCK_DIR/runners/sigtest
+pushd $BATCH_TCK_DIR/com.ibm.jbatch.tck.sigtest.exec
 mvn install -Dversion.org.jberet.jberet-core=${jberet_ver}
 echo "run sigtest result: $?"
 popd
 
 # Run SE tests
-pushd $BATCH_TCK_DIR/runners/se-classpath
+pushd $BATCH_TCK_DIR/runners/com.ibm.jbatch.tck.exec
 mvn install -Dversion.org.jberet.jberet-core=${jberet_ver}
 echo "se-classpath running result: $?"
 popd
@@ -109,7 +114,7 @@ fi
 done
 popd
 
-pushd $BATCH_TCK_DIR/runners/platform-arquillian
+pushd $BATCH_TCK_DIR/runners/jakarta.batch.arquillian.exec
 mvn install
 echo "platform-arquillian running result: $?"
 popd
