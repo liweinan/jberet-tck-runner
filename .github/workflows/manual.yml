@@ -6,7 +6,7 @@ name: Manual JBeret TCK Testings
 on:
   workflow_dispatch:
     inputs:
-      SET_BATCH_TCK_VER:
+      ver_batch_tck:
         description: "The Batch Tck Version To Use:"
 jobs:
   build-test-matrix:
@@ -28,4 +28,4 @@ jobs:
           java-version: ${{ matrix.jdk-version }}
           cache: 'maven'
       - name: run setup script
-        run: ./run-tck.sh
+        run: SET_BATCH_TCK_VER=${{ inputs.ver_batch_tck }} ./run-tck.sh
