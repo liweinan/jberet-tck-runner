@@ -1,0 +1,31 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Manual JBeret TCK Testings
+
+on:
+  workflow_dispatch:
+    inputs:
+      SET_BATCH_TCK_VER:
+        description: "The Batch Tck Version To Use:"
+jobs:
+  build-test-matrix:
+    name: ${{ matrix.jdk-distribution }}-${{ matrix.jdk-version }}-${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ] # bash script only runs on ubuntu
+        jdk-distribution: [ temurin ]
+        jdk-version: [ '11', '17' ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK ${{ matrix.jdk-distribution }} ${{ matrix.jdk-version }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ matrix.jdk-distribution }}
+          java-version: ${{ matrix.jdk-version }}
+          cache: 'maven'
+      - name: run setup script
+        run: ./run-tck.sh
