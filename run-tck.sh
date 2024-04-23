@@ -13,13 +13,13 @@ BATCH_TCK_VER=${SET_BATCH_TCK_VER:-2.1.1}
 wget https://download.eclipse.org/jakartaee/batch/2.1/jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
 unzip jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
 
-git clone https://github.com/jberet/jberet-tck-porting.git
+git clone --depth 1 https://github.com/jberet/jberet-tck-porting.git
 
 pushd jberet-tck-porting
 mvn install -DskipTests
 popd
 
-git clone https://github.com/jberet/jsr352.git
+git clone --depth 1 https://github.com/jberet/jsr352.git
 
 pushd jsr352
 mvn install -DskipTests
