@@ -22,7 +22,8 @@ jobs:
       matrix:
         os: [ ubuntu-latest ] # bash script only runs on ubuntu
         jdk-distribution: [ temurin ]
-        jdk-version: [ '11', '17' ]
+        jdk-version: [ '11', '17', '21' ]
+        batch-tck-ver: [ '2.1.1', '2.1.5' ]
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK ${{ matrix.jdk-distribution }} ${{ matrix.jdk-version }}
@@ -32,4 +33,4 @@ jobs:
           java-version: ${{ matrix.jdk-version }}
           cache: 'maven'
       - name: run setup script
-        run: ./run-tck.sh
+        run: SET_BATCH_TCK_VER=${{ matrix.batch-tck-ver }} ./run-tck.sh
