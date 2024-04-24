@@ -14,7 +14,7 @@ pushd batch-tck
 git checkout master
 # https://github.com/jakartaee/batch-tck/issues/77
 mvn clean install -DskipTests -Dxml.skip -Decho.skip
-tck_ver=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+BATCH_TCK_VER=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 popd
 
 export BATCH_TCK_DIR=$(pwd)/batch-tck
@@ -39,10 +39,14 @@ echo "build jsr352 result: $?"
 jberet_ver=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 popd
 
-cp $JBERET_PORTING_DIR/src/main/resources/runners/sigtest/pom-rawhide.xml $BATCH_TCK_DIR/com.ibm.jbatch.tck.sigtest.exec/pom.xml
-cp $JBERET_PORTING_DIR/src/main/resources/runners/se-classpath/pom-rawhide.xml $BATCH_TCK_DIR/com.ibm.jbatch.tck.exec/pom.xml
-cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/pom-rawhide.xml $BATCH_TCK_DIR/jakarta.batch.arquillian.exec/pom.xml
+cp $JBERET_PORTING_DIR/src/main/resources/runners/sigtest/pom-parent-param.xml $BATCH_TCK_DIR/com.ibm.jbatch.tck.sigtest.exec/pom.xml
+cp $JBERET_PORTING_DIR/src/main/resources/runners/se-classpath/pom-parent-param.xml $BATCH_TCK_DIR/com.ibm.jbatch.tck.exec/pom.xml
+cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/pom-parent-param.xml $BATCH_TCK_DIR/jakarta.batch.arquillian.exec/pom.xml
 cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/src/test/resources/arquillian.xml $BATCH_TCK_DIR/jakarta.batch.arquillian.exec/src/test/resources/arquillian.xml
+
+sed -ie "s/BATCH_PARENT_VER/${BATCH_TCK_VER}/g" $BATCH_TCK_DIR/com.ibm.jbatch.tck.sigtest.exec/pom.xml
+sed -ie "s/BATCH_PARENT_VER/${BATCH_TCK_VER}/g" $BATCH_TCK_DIR/com.ibm.jbatch.tck.exec/pom.xml
+sed -ie "s/BATCH_PARENT_VER/${BATCH_TCK_VER}/g" $BATCH_TCK_DIR/jakarta.batch.arquillian.exec/pom.xml
 
 # Run sigtest
 pushd $BATCH_TCK_DIR/com.ibm.jbatch.tck.sigtest.exec
