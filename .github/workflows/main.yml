@@ -23,7 +23,7 @@ jobs:
         os: [ ubuntu-latest ] # bash script only runs on ubuntu
         jdk-distribution: [ temurin ]
         jdk-version: [ '11', '17', '21' ]
-        batch-tck-ver: [ '2.1.1', '2.1.5' ]
+        batch-tck-ver: [ '2.1.5' ] # 2.1.1 Can't pass Java 21 tests, so remove it from testing.
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK ${{ matrix.jdk-distribution }} ${{ matrix.jdk-version }}
