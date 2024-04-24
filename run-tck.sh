@@ -39,10 +39,14 @@ export JBOSS_HOME=$(pwd)/wildfly-${WFLY_VER}
 
 cp $JBERET_PORTING_DIR/target/jberet-tck-porting.jar $JBOSS_HOME/standalone/deployments/
 
-cp $JBERET_PORTING_DIR/src/main/resources/runners/sigtest/pom.xml $BATCH_TCK_DIR/runners/sigtest/pom.xml
-cp $JBERET_PORTING_DIR/src/main/resources/runners/se-classpath/pom.xml $BATCH_TCK_DIR/runners/se-classpath/pom.xml
-cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/pom.xml $BATCH_TCK_DIR/runners/platform-arquillian/pom.xml
+cp $JBERET_PORTING_DIR/src/main/resources/runners/sigtest/pom-parent-param.xml $BATCH_TCK_DIR/runners/sigtest/pom.xml
+cp $JBERET_PORTING_DIR/src/main/resources/runners/se-classpath/pom-parent-param.xml $BATCH_TCK_DIR/runners/se-classpath/pom.xml
+cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/pom-parent-param.xml $BATCH_TCK_DIR/runners/platform-arquillian/pom.xml
 cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/src/test/resources/arquillian.xml $BATCH_TCK_DIR/runners/platform-arquillian/src/test/resources/arquillian.xml
+
+sed -ie "s/BATCH_PARENT_VER/${BATCH_TCK_VER}/g" $BATCH_TCK_DIR/runners/sigtest/pom.xml
+sed -ie "s/BATCH_PARENT_VER/${BATCH_TCK_VER}/g" $BATCH_TCK_DIR/runners/se-classpath/pom.xml
+sed -ie "s/BATCH_PARENT_VER/${BATCH_TCK_VER}/g" $BATCH_TCK_DIR/runners/platform-arquillian/pom.xml
 
 # Run sigtest
 pushd $BATCH_TCK_DIR/runners/sigtest
