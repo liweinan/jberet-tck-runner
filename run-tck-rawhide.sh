@@ -44,9 +44,9 @@ cp $JBERET_PORTING_DIR/src/main/resources/runners/se-classpath/pom-parent-param.
 cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/pom-parent-param.xml $BATCH_TCK_DIR/jakarta.batch.arquillian.exec/pom.xml
 cp $JBERET_PORTING_DIR/src/main/resources/runners/platform-arquillian/src/test/resources/arquillian.xml $BATCH_TCK_DIR/jakarta.batch.arquillian.exec/src/test/resources/arquillian.xml
 
-sed -ie "s/BATCH_PARENT_VER/${BATCH_TCK_VER}/g" $BATCH_TCK_DIR/runners/sigtest/pom.xml
-sed -ie "s/BATCH_PARENT_VER/${BATCH_TCK_VER}/g" $BATCH_TCK_DIR/runners/se-classpath/pom.xml
-sed -ie "s/BATCH_PARENT_VER/${BATCH_TCK_VER}/g" $BATCH_TCK_DIR/runners/platform-arquillian/pom.xml
+sed -ie "s/BATCH_PARENT_VER/${BATCH_TCK_VER}/g" $BATCH_TCK_DIR/com.ibm.jbatch.tck.sigtest.exec/pom.xml
+sed -ie "s/BATCH_PARENT_VER/${BATCH_TCK_VER}/g" $BATCH_TCK_DIR/com.ibm.jbatch.tck.exec/pom.xml
+sed -ie "s/BATCH_PARENT_VER/${BATCH_TCK_VER}/g" $BATCH_TCK_DIR/jakarta.batch.arquillian.exec/pom.xml
 
 # Run sigtest
 pushd $BATCH_TCK_DIR/com.ibm.jbatch.tck.sigtest.exec
