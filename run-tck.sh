@@ -15,16 +15,6 @@ unzip jakarta.batch.official.tck-${BATCH_TCK_VER}.zip
 
 git clone --depth 1 https://github.com/jberet/jberet-tck-porting.git
 
-if [ "${USE_BRANCH}" != "" ]; then
-  echo "Using the JBeret branch ${USE_BRANCH} for testings."
-  pushd jberet-tck-porting
-  git remote set-branches --add origin "${USE_BRANCH}"
-  git fetch origin "${USE_BRANCH}"
-  git checkout "${USE_BRANCH}"
-  git branch -a
-  popd
-fi
-
 pushd jberet-tck-porting
 mvn install -DskipTests
 popd
