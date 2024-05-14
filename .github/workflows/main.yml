@@ -24,6 +24,7 @@ jobs:
         jdk-distribution: [ temurin ]
         jdk-version: [ '11', '17', '21' ]
         batch-tck-ver: [ '2.1.5' ] # 2.1.1 Can't pass Java 21 tests, so remove it from testing.
+        use_branch: [ 'main', '2.1' ]
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK ${{ matrix.jdk-distribution }} ${{ matrix.jdk-version }}
@@ -33,4 +34,4 @@ jobs:
           java-version: ${{ matrix.jdk-version }}
           cache: 'maven'
       - name: run setup script
-        run: SET_BATCH_TCK_VER=${{ matrix.batch-tck-ver }} ./run-tck.sh
+        run: SET_BATCH_TCK_VER=${{ matrix.batch-tck-ver }} USE_BRANCH=${{ matrix.use_branch }} ./run-tck.sh
