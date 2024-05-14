@@ -35,7 +35,7 @@ git clone --depth 1 https://github.com/jberet/jsr352.git
 
 if [ "${USE_BRANCH}" != "" ]; then
   echo "Using the JBeret branch ${USE_BRANCH} for testings."
-  pushd jberet-tck-porting
+  pushd jsr352
   git remote set-branches --add origin "${USE_BRANCH}"
   git fetch origin "${USE_BRANCH}"
   git checkout "${USE_BRANCH}"
