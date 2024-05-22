@@ -22,15 +22,145 @@
 
     <artifactId>jberet-tck-runner</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <properties>
         <version.com.ibm.jbatch.tck.spi>2.1.0</version.com.ibm.jbatch.tck.spi>
         <version.org.jberet.jberet-core>${project.parent.version}</version.org.jberet.jberet-core>
+        <jboss.home>${project.build.directory}${file.separator}wildfly</jboss.home>
+        <version.org.wildfly>30.0.1.Final</version.org.wildfly>
+        <galleon.fork.embedded>true</galleon.fork.embedded>
+        <version.wildfly-maven-plugin>5.0.0.Final</version.wildfly-maven-plugin>
+        <server.test.feature.pack.groupId>org.wildfly</server.test.feature.pack.groupId>
+        <server.test.feature.pack.artifactId>wildfly-ee-galleon-pack</server.test.feature.pack.artifactId>
+        <version.jberet>2.2.2-SNAPSHOT</version.jberet>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>provision-preview</id>
+            <!--            <activation>-->
+            <!--                <property>-->
+            <!--                    <name>provision.preview</name>-->
+            <!--                </property>-->
+            <!--            </activation>-->
+            <properties>
+                <server.test.feature.pack.groupId>org.wildfly</server.test.feature.pack.groupId>
+                <server.test.feature.pack.artifactId>wildfly-preview-feature-pack</server.test.feature.pack.artifactId>
+            </properties>
+        </profile>
+    </profiles>
 
     <build>
         <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <warName>test-deployment</warName>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly-maven-plugin}</version>
+                <configuration>
+                    <jboss-home>${jboss.home}</jboss-home>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>server-provisioning</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>provision</goal>
+                        </goals>
+                        <configuration>
+                            <provisioning-dir>${jboss.home}</provisioning-dir>
+                            <galleon-options>
+                                <jboss-fork-embedded>${galleon.fork.embedded}</jboss-fork-embedded>
+                            </galleon-options>
+                            <feature-packs>
+                                <feature-pack>
+                                    <groupId>${server.test.feature.pack.groupId}</groupId>
+                                    <artifactId>${server.test.feature.pack.artifactId}</artifactId>
+                                    <version>${version.org.wildfly}</version>
+                                    <inherit-configs>false</inherit-configs>
+                                    <included-configs>
+                                        <config>
+                                            <model>standalone</model>
+                                            <name>standalone-full.xml</name>
+                                        </config>
+                                        <config>
+                                            <model>standalone</model>
+                                            <name>standalone.xml</name>
+                                        </config>
+                                    </included-configs>
+                                    <excluded-packages>
+                                        <name>docs.schema</name>
+                                        <name>appclient</name>
+                                        <name>domain</name>
+                                    </excluded-packages>
+                                </feature-pack>
+                            </feature-packs>
+                            <channels>
+                                <channel>
+                                    <manifest>
+                                        <groupId>org.jberet</groupId>
+                                        <artifactId>jberet-channel-manifest</artifactId>
+                                        <version>${version.jberet}</version>
+                                    </manifest>
+                                </channel>
+                            </channels>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>wildfly-start</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                            <goal>deploy</goal>
+                        </goals>
+                        <configuration>
+                            <filename>test-deployment.war</filename>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <phase>post-integration-test</phase>
+                        <id>wildfly-stop</id>
+                        <goals>
+                            <goal>shutdown</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*ITest*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <testClassesDirectory>${project.build.testOutputDirectory}</testClassesDirectory>
+                    <includes>
+                        <include>**/*ITest*</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
     <dependencies>
