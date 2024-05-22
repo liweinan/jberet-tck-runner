@@ -30,7 +30,7 @@ jobs:
         os: [ ubuntu-latest ] # bash script only runs on ubuntu
         jdk-distribution: [ temurin ]
         jdk-version: [ '21' ]
-        use_branch: [ 'main', '2.1' ]
+        use_branch: [ 'main' ]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
