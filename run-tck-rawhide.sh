@@ -71,13 +71,21 @@ echo "se-classpath running result: $?"
 popd
 
 
-WFLY_VER=$(curl --silent -qI https://github.com/wildfly/wildfly/releases/latest | grep '^location.*' | tr -d '\r')
-WFLY_VER=${WFLY_VER##*/}
+# Using the provisioned WildFly instead.
+#WFLY_VER=$(curl --silent -qI https://github.com/wildfly/wildfly/releases/latest | grep '^location.*' | tr -d '\r')
+#WFLY_VER=${WFLY_VER##*/}
+#
+#wget https://github.com/wildfly/wildfly/releases/download/${WFLY_VER}/wildfly-${WFLY_VER}.zip
+#unzip wildfly-${WFLY_VER}.zip
+#
+#export JBOSS_HOME=$(pwd)/wildfly-${WFLY_VER}
 
-wget https://github.com/wildfly/wildfly/releases/download/${WFLY_VER}/wildfly-${WFLY_VER}.zip
-unzip wildfly-${WFLY_VER}.zip
-
-export JBOSS_HOME=$(pwd)/wildfly-${WFLY_VER}
+pwd
+mvn clean install \
+  "-Dversion.org.wildfly=${WILDFLY_VER}" \
+  '-Dversion.wildfly-maven-plugin=5.0.0.Final' \
+  "-Dversion.jberet=${jberet_ver}" \
+  '-Pprovision-preview'
 
 cp $JBERET_PORTING_DIR/target/jberet-tck-porting.jar $JBOSS_HOME/standalone/deployments/
 
