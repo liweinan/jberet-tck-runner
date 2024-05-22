@@ -14,6 +14,11 @@ on:
     - cron: '0 0 * * *' # Every day at 00:00 UTC
   workflow_dispatch:
 jobs:
+  wildfly-build:
+    uses: wildfly/wildfly/.github/workflows/shared-wildfly-build.yml@main
+    with:
+      wildfly-branch: "main"
+      wildfly-repo: "wildfly/wildfly"
   build-test-matrix:
     name: ${{ matrix.jdk-distribution }}-${{ matrix.jdk-version }}-${{ matrix.os }}
     runs-on: ${{ matrix.os }}
