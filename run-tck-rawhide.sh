@@ -81,11 +81,14 @@ popd
 #export JBOSS_HOME=$(pwd)/wildfly-${WFLY_VER}
 
 pwd
+
 mvn clean install \
-  "-Dversion.org.wildfly=${WILDFLY_VER}" \
+  "-Dversion.org.wildfly=${WFLY_VER}" \
   '-Dversion.wildfly-maven-plugin=5.0.0.Final' \
   "-Dversion.jberet=${jberet_ver}" \
   '-Pprovision-preview'
+
+export JBOSS_HOME=$(pwd)/target/wildfly
 
 cp $JBERET_PORTING_DIR/target/jberet-tck-porting.jar $JBOSS_HOME/standalone/deployments/
 
