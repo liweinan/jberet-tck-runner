@@ -36,6 +36,21 @@
         <version.jberet>2.2.2-SNAPSHOT</version.jberet>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>provision-preview</id>
+            <!--            <activation>-->
+            <!--                <property>-->
+            <!--                    <name>provision.preview</name>-->
+            <!--                </property>-->
+            <!--            </activation>-->
+            <properties>
+                <server.test.feature.pack.groupId>org.wildfly</server.test.feature.pack.groupId>
+                <server.test.feature.pack.artifactId>wildfly-preview-feature-pack</server.test.feature.pack.artifactId>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
