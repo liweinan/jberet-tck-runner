@@ -85,6 +85,11 @@ pwd
 mvn clean install \
   "-Dversion.org.wildfly=${WFLY_VER}" \
   '-Dversion.wildfly-maven-plugin=5.0.0.Final' \
+  "-Dversion.jberet=${jberet_ver}"
+
+mvn clean install \
+  "-Dversion.org.wildfly=${WFLY_VER}" \
+  '-Dversion.wildfly-maven-plugin=5.0.0.Final' \
   "-Dversion.jberet=${jberet_ver}" \
   '-Pprovision-preview'
 
