@@ -71,6 +71,9 @@ echo "se-classpath running result: $?"
 popd
 
 
+# todo: extract the following into a separate file.
+# and run with different profiles.
+
 # Using the provisioned WildFly instead.
 #WFLY_VER=$(curl --silent -qI https://github.com/wildfly/wildfly/releases/latest | grep '^location.*' | tr -d '\r')
 #WFLY_VER=${WFLY_VER##*/}
@@ -87,11 +90,11 @@ mvn clean install \
   '-Dversion.wildfly-maven-plugin=5.0.0.Final' \
   "-Dversion.jberet=${jberet_ver}"
 
-mvn clean install \
-  "-Dversion.org.wildfly=${WFLY_VER}" \
-  '-Dversion.wildfly-maven-plugin=5.0.0.Final' \
-  "-Dversion.jberet=${jberet_ver}" \
-  '-Pprovision-preview'
+#mvn clean install \
+#  "-Dversion.org.wildfly=${WFLY_VER}" \
+#  '-Dversion.wildfly-maven-plugin=5.0.0.Final' \
+#  "-Dversion.jberet=${jberet_ver}" \
+#  '-Pprovision-preview'
 
 export JBOSS_HOME=$(pwd)/target/wildfly
 
