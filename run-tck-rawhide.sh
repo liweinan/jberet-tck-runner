@@ -72,6 +72,12 @@ popd
 
 USE_PROFILE="provision-preview" \
 WFLY_VER="${WFLY_VER}" \
-JBERET_VER="${JBERET_VER}" \
-BATCH_TCK_DIR=${BATCH_TCK_DIR} \
+JBERET_VER="${jberet_ver}" \
+BATCH_TCK_DIR="${BATCH_TCK_DIR}" \
+./run-wildfly-ci.sh
+
+# test without the preview profile
+WFLY_VER="${WFLY_VER}" \
+JBERET_VER="${jberet_ver}" \
+BATCH_TCK_DIR="${BATCH_TCK_DIR}" \
 ./run-wildfly-ci.sh
