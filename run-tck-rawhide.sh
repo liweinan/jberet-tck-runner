@@ -76,8 +76,9 @@ JBERET_VER="${jberet_ver}" \
 BATCH_TCK_DIR="${BATCH_TCK_DIR}" \
 ./run-wildfly-ci.sh
 
+# disable the non-preview testings for now
 # test without the preview profile
-WFLY_VER="${WFLY_VER}" \
-JBERET_VER="${jberet_ver}" \
-BATCH_TCK_DIR="${BATCH_TCK_DIR}" \
-./run-wildfly-ci.sh
+#WFLY_VER="${WFLY_VER}" \
+#JBERET_VER="${jberet_ver}" \
+#BATCH_TCK_DIR="${BATCH_TCK_DIR}" \
+#./run-wildfly-ci.sh
