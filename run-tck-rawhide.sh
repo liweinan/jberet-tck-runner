@@ -70,7 +70,7 @@ mvn install -Dversion.org.jberet.jberet-core=${jberet_ver}
 echo "se-classpath running result: $?"
 popd
 
-USE_PROFILE="provision-preview" \
+USE_PROFILE="${USE_PROFILE}" \
 WFLY_VER="${WFLY_VER}" \
 JBERET_VER="${jberet_ver}" \
 BATCH_TCK_DIR="${BATCH_TCK_DIR}" \
