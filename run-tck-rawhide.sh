@@ -8,7 +8,9 @@ err_report() {
 
 trap 'err_report $LINENO' ERR
 
+
 # clone the upstream `batch-tck` and build it.
+rm -rf batch-tck
 git clone --depth 1 https://github.com/jakartaee/batch-tck.git
 pushd batch-tck
 git checkout master
@@ -20,6 +22,7 @@ popd
 export BATCH_TCK_DIR=$(pwd)/batch-tck
 
 # Use the customized branch to override the `batch-tck` version.
+rm -rf jberet-tck-porting
 git clone --depth 1 https://github.com/jberet/jberet-tck-porting.git
 
 # build for jdk 21 testings
@@ -31,6 +34,7 @@ popd
 
 export JBERET_PORTING_DIR=$(pwd)/jberet-tck-porting
 
+rm -rf jsr352
 git clone --depth 1 https://github.com/jberet/jsr352.git
 
 if [ "${USE_BRANCH}" != "" ]; then
