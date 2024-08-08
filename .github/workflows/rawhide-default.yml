@@ -6,8 +6,9 @@ name: JBeret TCK Testings Rawhide With Default WildFly Server
 on:
   push:
     branches: [ main ]
-  pull_request_target:
-    branches: [ main ]
+  pull_request:
+    branches:
+      - "main"
   schedule:
     - cron: '0 0 * * *' # Every day at 00:00 UTC
   workflow_dispatch:
