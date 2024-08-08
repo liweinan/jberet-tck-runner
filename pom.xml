@@ -25,7 +25,7 @@
     <packaging>war</packaging>
 
     <properties>
-        <version.com.ibm.jbatch.tck.spi>2.1.0</version.com.ibm.jbatch.tck.spi>
+        <version.com.ibm.jbatch.tck.spi>2.1.5</version.com.ibm.jbatch.tck.spi>
         <version.org.jberet.jberet-core>${project.parent.version}</version.org.jberet.jberet-core>
         <jboss.home>${project.build.directory}${file.separator}wildfly</jboss.home>
         <version.org.wildfly>30.0.1.Final</version.org.wildfly>
