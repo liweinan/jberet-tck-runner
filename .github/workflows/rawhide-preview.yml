@@ -10,6 +10,8 @@ on:
     types: [ opened, synchronize, reopened, ready_for_review ]
   push:
     branches: [ main ]
+  pull_request_target:
+    branches: [ main ]
   schedule:
     - cron: '0 0 * * *' # Every day at 00:00 UTC
   workflow_dispatch:
