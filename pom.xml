@@ -57,9 +57,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <warName>test-deployment</warName>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
@@ -122,7 +119,7 @@
                             <goal>deploy</goal>
                         </goals>
                         <configuration>
-                            <filename>test-deployment.war</filename>
+                            <filename>${project.artifactId}</filename>
                         </configuration>
                     </execution>
                     <execution>
