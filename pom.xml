@@ -33,7 +33,7 @@
         <version.wildfly-maven-plugin>5.0.0.Final</version.wildfly-maven-plugin>
         <server.test.feature.pack.groupId>org.wildfly</server.test.feature.pack.groupId>
         <server.test.feature.pack.artifactId>wildfly-ee-galleon-pack</server.test.feature.pack.artifactId>
-        <version.jberet>2.2.2-SNAPSHOT</version.jberet>
+        <version.jberet>3.0.0.Final</version.jberet>
     </properties>
 
     <profiles>
