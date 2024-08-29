@@ -112,6 +112,20 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>configure-wildfly</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>execute-commands</goal>
+                        </goals>
+                        <configuration>
+                            <jboss-home>${jboss.home}</jboss-home>
+                            <offline>true</offline>
+                            <scripts>
+                                <script>${project.build.outputDirectory}/configure-wildfly.cli</script>
+                            </scripts>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>wildfly-start</id>
                         <phase>pre-integration-test</phase>
                         <goals>
