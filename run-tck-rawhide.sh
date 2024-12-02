@@ -63,12 +63,14 @@ sed -ie "s/BATCH_PARENT_VER/${BATCH_TCK_VER}/g" $BATCH_TCK_DIR/com.ibm.jbatch.tc
 sed -ie "s/BATCH_PARENT_VER/${BATCH_TCK_VER}/g" $BATCH_TCK_DIR/jakarta.batch.arquillian.exec/pom.xml
 
 # Run sigtest
+echo "start to run sigtest"
 pushd $BATCH_TCK_DIR/com.ibm.jbatch.tck.sigtest.exec
 mvn install -Dversion.org.jberet.jberet-core=${jberet_ver}
 echo "run sigtest result: $?"
 popd
 
 # Run SE tests
+echo "start to run SE tests"
 pushd $BATCH_TCK_DIR/com.ibm.jbatch.tck.exec
 mvn install -Dversion.org.jberet.jberet-core=${jberet_ver}
 echo "se-classpath running result: $?"

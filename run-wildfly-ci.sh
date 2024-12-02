@@ -13,7 +13,7 @@ set -x
 #unzip wildfly-${WFLY_VER}.zip
 #
 #export JBOSS_HOME=$(pwd)/wildfly-${WFLY_VER}
-
+echo "start to run wildfly-ci test"
 pwd
 
 if [ "${USE_PROFILE}" != "" ]; then
