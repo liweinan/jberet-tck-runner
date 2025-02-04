@@ -5,7 +5,7 @@ set -x
 echo "start to run wildfly-ci test"
 pwd
 
-echo "build jberet-tck-runner itself"
+echo "build jberet-tck-runner itself with provisioned WildFly server"
 
 if [ "${USE_PROFILE}" != "" ]; then
   mvn clean install \
